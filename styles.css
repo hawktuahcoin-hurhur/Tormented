@@ -1,0 +1,241 @@
+:root{
+  --accent:#5b6cff;
+  --muted:#9aa;
+  --bg:#000000;
+}
+*{box-sizing:border-box}
+.site-header{padding:0;margin:0;background:transparent;box-shadow:none;display:flex;flex-direction:column;flex:0 1 320px;min-width:0}
+.site-header h1{margin:0;font-size:20px;color:#ffffff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.subtitle{margin:4px 0 0;color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tabs{display:flex;gap:12px;padding:10px 16px;overflow-x:auto;align-items:center;background:transparent;border-bottom:none;position:relative;margin-left:auto;flex:0 0 auto}
+body{margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;background:var(--bg);color:#e6e6e6}
+.tab{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;border:1px solid transparent;background:transparent;cursor:pointer;font-weight:600}
+.tab span{font-weight:700}
+.tab.active{background:linear-gradient(180deg,var(--accent),#6b7bff);color:#fff;border-color:rgba(91,108,255,.35)}
+.topbar{position:sticky;top:0;z-index:12;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 18px}
+.content-wrap{height:calc(100vh - 160px);padding:20px 24px;overflow:auto}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* show panel based on radio selection */
+#tab-eikon:checked ~ .content-wrap #eikon{display:block}
+#tab-curve:checked ~ .content-wrap #curve{display:block}
+/* Soccer tab removed */
+
+/* style active tab label from radio state */
+#tab-eikon:checked ~ .topbar .tabs .tab[data-tab="eikon"],
+#tab-curve:checked ~ .topbar .tabs .tab[data-tab="curve"],
+/* Soccer tab removed */
+
+/* panel inner layout: cover to the left, content to the right */
+.panel-inner{display:flex;gap:20px;align-items:flex-start}
+.cover-side{width:220px;height:auto;border-radius:6px;box-shadow:0 6px 18px rgba(20,30,60,0.12);flex:0 0 220px}
+.panel-content{flex:1;min-width:0}
+.panel-content h2{margin-top:0}
+.tagline{color:var(--muted);margin:6px 0}
+.meta{color:var(--muted);font-size:13px;margin-bottom:14px}
+.novel-content h3{margin-top:18px}
+.novel-content p{line-height:1.6;color:#222}
+ul{color:#222}
+
+/* Panel base */
+.tab-panel .panel-inner{padding:20px;border-radius:10px;transition:box-shadow .25s ease, transform .15s ease}
+
+/* Eikon War panel: ancient parchment + faint runes */
+.tab-panel#eikon .panel-inner{
+  background: linear-gradient(180deg,#030202 10%, #070507 40%, #0b0b0b 100%);
+  border:1px solid rgba(255,255,255,0.03);
+  box-shadow: inset 0 6px 30px rgba(0,0,0,0.9), 0 8px 30px rgba(0,0,0,0.6);
+  position:relative;
+  overflow:hidden;
+  color:#e9dfd0;
+}
+.tab-panel#eikon .panel-inner::before{
+  content: "ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾ ᛗᛚᛜ ᛟ";
+  position:absolute;left:0;top:50%;
+  font-size:120px;line-height:1;color:rgba(255,215,160,0.04);
+  transform:translateY(-50%);
+  white-space:nowrap;pointer-events:none;
+  animation: runes-scroll 22s linear infinite;
+}
+.tab-panel#eikon .panel-inner::after{
+  content: '';
+  position:absolute;inset:0;background-image:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0));mix-blend-mode:overlay;pointer-events:none;
+}
+@keyframes runes-scroll{
+  from{transform:translate3d(-10%, -50%, 0)}
+  to{transform:translate3d(-110%, -50%, 0)}
+}
+
+/* The Curve panel: animated system/grid window */
+.tab-panel#curve .panel-inner{
+  background: linear-gradient(180deg,#000814 0%, #001126 35%, #001a2a 100%);
+  color: #bfeeff;
+  border:1px solid rgba(80,160,220,0.06);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.8) inset, 0 10px 30px rgba(0,0,0,0.6);
+  position:relative;overflow:hidden;
+}
+
+/* holographic circuit lines */
+.tab-panel#curve .panel-inner::before{
+  content:'';position:absolute;inset:0;background-image:
+    linear-gradient(90deg, rgba(40,200,255,0.06) 1px, transparent 1px),
+    linear-gradient(rgba(40,200,255,0.06) 1px, transparent 1px);
+  background-size:120px 120px, 120px 120px;opacity:0.6;mix-blend-mode:screen;pointer-events:none;filter:blur(6px);
+  animation:curve-lines 10s linear infinite;
+}
+
+@keyframes curve-lines{from{background-position:0 0, 0 0}to{background-position:240px 240px, -240px -240px}}
+
+/* moving holographic components */
+.tab-panel#curve .panel-inner .holo-dot{position:absolute;width:8px;height:8px;border-radius:50%;background:rgba(120,220,255,0.95);box-shadow:0 0 12px rgba(120,220,255,0.9);opacity:0.9}
+.tab-panel#curve .panel-inner .holo-dot.d1{left:12%;top:20%;animation:dotmove1 6s linear infinite}
+.tab-panel#curve .panel-inner .holo-dot.d2{left:70%;top:40%;animation:dotmove2 7s linear infinite}
+.tab-panel#curve .panel-inner .holo-dot.d3{left:45%;top:75%;animation:dotmove3 5.5s linear infinite}
+
+@keyframes dotmove1{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(18px) translateX(12px)}100%{transform:translateY(0) translateX(0)}}
+@keyframes dotmove2{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-22px) translateX(-18px)}100%{transform:translateY(0) translateX(0)}}
+@keyframes dotmove3{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(14px) translateX(-24px)}100%{transform:translateY(0) translateX(0)}}
+
+/* Improved contrast for panel text */
+.tab-panel#eikon .panel-content,
+.tab-panel#eikon .panel-content p,
+.tab-panel#eikon .panel-content h2,
+.tab-panel#eikon .panel-content ul,
+.tab-panel#eikon .panel-content li{
+  color: #f6ecd8;
+}
+.tab-panel#eikon .meta{color:rgba(246,236,216,0.85)}
+
+.tab-panel#curve .panel-content,
+.tab-panel#curve .panel-content p,
+.tab-panel#curve .panel-content h2,
+.tab-panel#curve .panel-content ul,
+.tab-panel#curve .panel-content li{
+  color: #cfefff;
+}
+.tab-panel#curve .meta{color:rgba(207,238,255,0.85)}
+
+/* large holographic rings (high-tech circular layers) */
+.tab-panel#curve .panel-inner .holo-ring{
+  position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;mix-blend-mode:screen;
+}
+.tab-panel#curve .panel-inner .holo-ring.r1{
+  width:520px;height:520px;border:2px solid rgba(80,200,255,0.06);box-shadow:0 0 80px rgba(80,200,255,0.06),inset 0 0 40px rgba(80,200,255,0.02);opacity:0.5;animation:ring-rotate 28s linear infinite, ring-pulse 6s ease-in-out infinite;
+}
+.tab-panel#curve .panel-inner .holo-ring.r2{
+  width:360px;height:360px;border:1px dashed rgba(120,230,255,0.07);box-shadow:0 0 60px rgba(120,230,255,0.04);opacity:0.6;animation:ring-rotate-rev 22s linear infinite, ring-pulse 7s ease-in-out infinite;
+}
+.tab-panel#curve .panel-inner .holo-ring.r3{
+  width:220px;height:220px;border:3px double rgba(160,245,255,0.08);box-shadow:0 0 36px rgba(160,245,255,0.06);opacity:0.8;animation:ring-rotate 18s linear infinite, ring-pulse 5s ease-in-out infinite;
+}
+
+@keyframes ring-rotate{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes ring-rotate-rev{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(-360deg)}}
+@keyframes ring-pulse{0%,100%{opacity:0.45;filter:blur(0px)}50%{opacity:0.85;filter:blur(2px)}}
+
+/* ensure content sits above rings */
+.tab-panel#curve .panel-content{position:relative;z-index:3}
+
+.audio-embed{margin:18px 0}
+.audio-embed iframe{max-width:100%;width:700px;height:228px;border-radius:12px;border:0;display:block}
+
+
+
+
+
+.external-link{margin-top:14px}
+.external-link a{display:inline-block;padding:8px 12px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-weight:700}
+
+@media (max-width:800px){
+  .panel-inner{flex-direction:column}
+  .cover-side{width:100%;height:auto;max-height:320px;object-fit:cover}
+  .site-header{padding:14px}
+  .content-wrap{height:calc(100vh - 170px)}
+}
+
+/* Soccer game styles */
+/* Soccer minigame styles removed */
+
+@media (max-width:420px){
+  .tab{padding:8px 10px;font-size:14px}
+}
+
+/* per-panel top-right full music player */
+.panel-inner{position:relative}
+.panel-audio{position:absolute;top:12px;right:12px;z-index:6;width:420px;max-width:44%;min-width:280px}
+.panel-audio iframe{width:100%;height:150px;border-radius:10px;border:0;display:block}
+
+@media (max-width:1200px){
+  .panel-audio{width:360px;max-width:40%}
+  .panel-audio iframe{height:140px}
+}
+
+@media (max-width:800px){
+  .panel-audio{position:static;width:100%;max-width:100%;margin-bottom:14px}
+  .panel-audio iframe{height:142px}
+}
+
+/* Full-viewport runes background for Eikon War */
+.eikon-runes-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.eikon-runes-bg::before{
+  content: "ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾ ᛗᛚᛜ ᛟ ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾ ᛗᛚᛜ ᛟ";
+  position:absolute;left:0;top:50%;transform:translateY(-50%);
+  font-size:220px;line-height:1;color:rgba(255,215,160,0.03);white-space:nowrap;
+  mix-blend-mode:overlay;pointer-events:none;filter:blur(1px);
+  animation:runes-scroll-large 40s linear infinite;
+}
+@keyframes runes-scroll-large{
+  from{transform:translate3d(10%, -50%, 0)}
+  to{transform:translate3d(-110%, -50%, 0)}
+}
+
+/* ensure main content sits above the runes layer */
+.site-header,.tabs,.content-wrap{position:relative;z-index:2}
+
+/* Eikon War: ancient rune appearance */
+.tab[data-tab="eikon"]{
+  font-family: 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  letter-spacing:1px;
+}
+.tab[data-tab="eikon"].active{
+  background: linear-gradient(180deg,#2b1f1a,#3e3029);
+  color:#f6e6d8;
+  border-color: rgba(0,0,0,0.25);
+  box-shadow: inset 0 -4px 12px rgba(0,0,0,0.35), 0 6px 18px rgba(0,0,0,0.12);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+}
+.tab[data-tab="eikon"].active::before{
+  content: "ᚠ"; /* runic glyph */
+  font-size:20px;
+  margin-right:8px;
+  color:#ffdca3;
+  transform: translateY(1px);
+}
+.tab[data-tab="eikon"].active{
+  border-radius:12px;
+}
+
+/* The Curve: system window appearance */
+.tab[data-tab="curve"]{
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+  letter-spacing:0.2px;
+}
+.tab[data-tab="curve"].active{
+  background: linear-gradient(180deg,#eef4fb,#dfe9f6);
+  color:#072033;
+  border:1px solid #c7d9ee;
+  box-shadow: 0 4px 10px rgba(20,40,80,0.08);
+}
+.tab[data-tab="curve"].active::before{
+  content: '';
+  position: absolute;
+  left:10px;
+  top:8px;
+  width:10px;height:10px;border-radius:50%;background:#ff5f56;box-shadow:14px 0 0 #ffbd2e,28px 0 0 #27c93f;
+}
+.tab[data-tab="curve"].active{position:relative;padding-top:12px}
+
+/* small refinement: ensure text doesn't clash with pseudo elements */
+.tab[data-tab="curve"] span{margin-left:36px}
+
